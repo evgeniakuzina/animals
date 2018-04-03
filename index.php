@@ -12,19 +12,15 @@ $continents = [
 
 //Select animals which names consist of two words
 
+$twoWordAnimals = [];
+
 foreach ($continents as $continent => $animals) {
 	foreach ($animals as $animal) {
-		$twoWordAnimal = strpbrk($animal, ' ');
-		if ($twoWordAnimal != false) { 
-			$twoWordAnimals[] = $animal;
+		$twoWordAnimal = explode(' ', $animal);
+		if (count($twoWordAnimal) > 1) { 
+			$twoWordAnimals[] = $twoWordAnimal;
 		}
 	}
-}
-
-//Separate names
-
-foreach ($twoWordAnimals as $animal) { 
-	$values[] = explode(' ', $animal);
 }
 
 // Create two separate arrays of first part of animals' name and second part of animals' names
@@ -32,19 +28,12 @@ foreach ($twoWordAnimals as $animal) {
 $firstWords = [];
 $secondWords = [];
 
-foreach ($values as $value) {
-	foreach ($value as $key => $name) {
-		if ($key % 2 == 0) {
-			$firstWords[] = $name;
-		}
-		else {
-			$secondWords[] = $name;
-		}
-	}
+foreach ($twoWordAnimals as $value) {
+	$firstWords[] = $value[0];
+	$secondWords[] = $value[1];
 }
 
 //Shuffle names in two arrays and create new array of animals 
-
 shuffle($firstWords);
 shuffle($secondWords);
 
@@ -57,16 +46,10 @@ for ($i = 0; $i < $arrayLength; $i++) {
 	$magicAnimals[] = $firstWords[$i] . ' ' . $secondWords[$i];
 }
 
+
 //Print the result
 
-foreach ($magicAnimals as $key => $magicAnimal) {
-	if ($key == $arrayLength - 1) {
-		echo ('<p>' . $magicAnimal . '. ' . '</p>');
-	}
-	else {
-		echo ('<p>' . $magicAnimal . ', ' . '</p>');	
-	}
-	
-}
+$commaList = implode(', ', $magicAnimals);
+echo($commaList);
 
 ?>
